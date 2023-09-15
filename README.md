@@ -86,7 +86,7 @@ contar con los siguientes recursos:
 
 
 
-
+```
 +------------------------------------------------------+-----------------------+
 |                      Logic Controls                  |         Stage         |
 +-------+-------+------+------+------+------+-----+----+-----------------------+
@@ -127,6 +127,8 @@ contar con los siguientes recursos:
 | 1 | 0 | 0 | 1 |                   |
 +---+---+---+---+-------------------+
 
+```
+
 
 ## Secuencia de arranque
 
@@ -136,13 +138,16 @@ las demás instrucciones en secuencia, por lo tanto espera una instrucción (INS
 no un operando (DATA WORD).
 
 
+```
 MEM[PC] > INST REG > LC (Logic Control)
 
 PC: 0000
 MEM: 0000
 
+```
 
-# Set de instrucciones
+
+## Set de instrucciones
 
 Las instrucciones para este CPU van a estar categorizadas en 4 grupos:
 
@@ -186,11 +191,13 @@ addr: Indica una posición de memoria.
 Las direcciones se cargan desde el LSB al MSB y se lee desde MSB al LSB, esto implica
 que la carga en memoria se debe hacer desde LSB a MSB, ejemplo:
 
+```asm
 MOV A,[1F00H]
 
 0100H: E4H 
 0101H: 00H  <-- LSB
 0102H: 1FH  <-- MSB
+```
 
 ## Registros
 
@@ -227,7 +234,7 @@ MOV B,[m]   1F00H     E8 00 1F      RA < [1F00H], Carga en RB lo que existe en l
 MOV [m],B   1F00H     D8 00 1F      [1F00H] < RA, Carga en la dirección de memoria
                                     1F00H lo que hay en RB.
 
-
+``asm
 ;; fibonacci
 org 0100H
 
@@ -242,9 +249,11 @@ loop:
   JPZ loop        ; Si la operación anterior (ADD) es no afecta el carry C = 0 salta
 
   HALT            ; fin
+```
 
 ## Aritméticas y Lógicas
 
+```
        __    __
 CLK __/  \__/
 
@@ -266,7 +275,6 @@ NOP
 A STA: Store REG A to next word addr
 B STB: Store REG B to next word addr
 C OUT: Write out REG A to bus and enable OE (Output Enable) to read from external
-
 
 ## Ejemplo: contador de numeros impares  
 
@@ -302,3 +310,4 @@ S R  F  OP
 
 # Grupos de instrucciones
 
+```
