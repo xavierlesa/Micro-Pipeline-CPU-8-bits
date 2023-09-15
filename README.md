@@ -1,4 +1,4 @@
-# Micro Pipeline CPU de 8 bit hecho a mano
+# Micro Pipeline CPU de 8 bit hecho a mano (DRAFT)
 
 
 Este proyecto está fuertemente inspirado en las series de videos de
