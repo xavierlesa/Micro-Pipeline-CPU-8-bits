@@ -171,25 +171,35 @@ Las instrucciones para este CPU van a estar categorizadas en 4 grupos:
     Otras instrucciones como HALT y NOP
 
 
-** Referencias **
+**Referencias**
 
-0bxxxx: Indica un valor binario de 4 bits 1/2 word.
-0byyyyxxxx: Indica un valor binario de 8 bits 1 word.
-0xnn: Indica un valor hexadecimal de 1 word.
-0xmmmm: Indica un valor hexadecimal de 2 word (16 bits) para asignar direcciones por
+`0bxxxx`: Indica un valor binario de 4 bits 1/2 word.
+
+`0byyyyxxxx`: Indica un valor binario de 8 bits 1 word.
+
+`0xnn`: Indica un valor hexadecimal de 1 word.
+
+`0xnnnn`: Indica un valor hexadecimal de 2 word (16 bits) para asignar direcciones por
         ejemplo.
 
-También es valido usar 1F00h o 1F00H para describir un valor hexadecimal.
-Ej 1fh, 1FH, 1fH, 0x1f, 0x1F son todas representaciones validas para el mismo valor.
 
-ACC: Refiere al Acumulador, y siempre apunta al registro A
-A o RA: Registro A
-B o RB: Registro B
-[m]: Indica el valor en una posición de memoria.
-addr: Indica una posición de memoria.
+También es valido usar 1F00h o 1F00H para describir un valor hexadecimal.
+Ej `1fh`, `1FH`, `1fH`, `0x1f`, `0x1F` son todas representaciones validas para el mismo valor.
+
+**ACC**: Refiere al Acumulador, y siempre apunta al registro A
+
+**A o RA**: Registro A
+
+**B o RB**: Registro B
+
+**[m]**: Indica el valor en una posición de memoria.
+
+**addr**: Indica una posición de memoria.
+
 
 Las direcciones se cargan desde el LSB al MSB y se lee desde MSB al LSB, esto implica
 que la carga en memoria se debe hacer desde LSB a MSB, ejemplo:
+
 
 ```asm
 MOV A,[1F00H]
@@ -201,17 +211,15 @@ MOV A,[1F00H]
 
 ## Registros
 
-Por ahora solo hay dos registros el A y B, identificados por las direcciones 0x01 y 0x10
+Por ahora solo hay dos registros el **A** y **B**, identificados por las direcciones `0x01` y `0x10`
 respectivamente.
 
-R   addr      Descripción
-A   0100H     Registro de proposito general y acumulador, en este es hacen la mayoria de
-              las operaciones matemáticas y lógicas.
-
-B   1000H     Registro de proposito general, intercambio de datos con y registro
-              temporal.
-
-0bpppp rrxx
+| R  | addr     | Descripción |
+|----|----------|-------------|
+| A  | 0100H    | Registro de proposito general y acumulador, en este es hacen la mayoria de |
+|    |          | las operaciones matemáticas y lógicas.                                     |
+| B  | 1000H    | Registro de proposito general, intercambio de datos con y registro         |
+|    |          | temporal.                                                                  |
 
 
 ## Lectura/Escritura en Registros/Memoria
