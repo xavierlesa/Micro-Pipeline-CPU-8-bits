@@ -216,25 +216,28 @@ B   1000H     Registro de proposito general, intercambio de datos con y registro
 
 ## Lectura/Escritura en Registros/Memoria
 
-Operador    Operando  Hexa          Descripción
-MOV A,x     57H       F4 57         RA < 57H, Carga en el ACC el inmediato 57H.
+|Operador   | Operando | Hexa        |  Descripción                                       |
+|-----------|----------|-------------|----------------------------------------------------|
+|MOV A,x    | 57H      | F4 57       |  RA < 57H, Carga en el ACC el inmediato 57H.       |
+|-----------|----------|-------------|----------------------------------------------------|
+|MOV A,[m]  | 1F00H    | E4 00 1F    |  RA < [1F00H], Carga en el ACC lo que existe en la |
+|           |          |             |  dirección de memoria 1F00H. La dirección se carga |
+|           |          |             |  desde el LSB al MSB y se lee desde MSB al LSB.    |
+|-----------|----------|-------------|----------------------------------------------------|
+|MOV [m],A  | 1F00H    | D4 00 1F    |  [1F00H] < RA, Carga en la dirección de memoria    |
+|           |          |             |  1F00H lo que hay en el ACC.                       |
+|-----------|----------|-------------|----------------------------------------------------|
+|MOV B,x    | 57H      | F8 57       |  RB < 57H, Carga en RB el inmediato 57H.           |
+|-----------|----------|-------------|----------------------------------------------------|
+|MOV B,[m]  | 1F00H    | E8 00 1F    |  RA < [1F00H], Carga en RB lo que existe en la     |
+|           |          |             |  dirección de memoria 1F00H.                       |
+|-----------|----------|-------------|----------------------------------------------------|
+|MOV [m],B  | 1F00H    | D8 00 1F    |  [1F00H] < RA, Carga en la dirección de memoria    |
+|           |          |             |  1F00H lo que hay en RB.                           |
+|-----------|----------|-------------|----------------------------------------------------|
 
-MOV A,[m]   1F00H     E4 00 1F      RA < [1F00H], Carga en el ACC lo que existe en la
-                                    dirección de memoria 1F00H. La dirección se carga
-                                    desde el LSB al MSB y se lee desde MSB al LSB.
 
-MOV [m],A   1F00H     D4 00 1F      [1F00H] < RA, Carga en la dirección de memoria
-                                    1F00H lo que hay en el ACC.
-
-MOV B,x     57H       F8 57         RB < 57H, Carga en RB el inmediato 57H.
-
-MOV B,[m]   1F00H     E8 00 1F      RA < [1F00H], Carga en RB lo que existe en la
-                                    dirección de memoria 1F00H.
-
-MOV [m],B   1F00H     D8 00 1F      [1F00H] < RA, Carga en la dirección de memoria
-                                    1F00H lo que hay en RB.
-
-``asm
+```asm
 ;; fibonacci
 org 0100H
 
