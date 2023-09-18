@@ -242,14 +242,14 @@ MOV A, 57H  ; El valor HEX de MOV es 0b1111xx00 donde xx es la dirección del re
 
 |Operador   | Operando | Hexa        |  Descripción                                       |
 |-----------|----------|-------------|----------------------------------------------------|
-|MOV r,x    | 57H      | Fx 57       |  Rr <- 57H, Carga en Rr el inmediato 57H.          |
+|MOVi r,x   | 57H      | Fx 57       |  Rr <- 57H, Carga en Rr el inmediato 57H.          |
 
 
-### Indirecto
+### Absoluto
 
 |Operador   | Operando | Hexa        |  Descripción                                       |
 |-----------|----------|-------------|----------------------------------------------------|
-|MOV r,[m]  | 1F00H    | E4 00 1F    |  Rr <- [1F00H], Carga en Rr lo que existe en la    |
+|MOVa r,[m] | 1F00H    | E4 00 1F    |  Rr <- [1F00H], Carga en Rr lo que existe en la    |
 |           |          |             |  dirección de memoria 1F00H. La dirección se carga |
 |           |          |             |  desde el LSB al MSB y se lee desde MSB al LSB.    |
 
@@ -257,15 +257,15 @@ MOV A, 57H  ; El valor HEX de MOV es 0b1111xx00 donde xx es la dirección del re
 
 |Operador   | Operando | Hexa        |  Descripción                                       |
 |-----------|----------|-------------|----------------------------------------------------|
-|MOV r,#m   | 1F00H    | D4 00 1F    |  Rr <- #1F00H, Carga en Rr lo que existe en la     |
+|MOVr r,#m  | 1F00H    | D4 00 1F    |  Rr <- #1F00H, Carga en Rr lo que existe en la     |
 |           |          |             |  dirección de memoria relativa al inmediato 1F00H. |
 |           |          |             |  En ambos la dirección se carga desde el LSB al    |
 |           |          |             |  MSB y se lee desde MSB al LSB.                    |
 
 ```
-0100H: MOV A, F0 01
-...                \
-01F0H: F0 0F  <-----+
+0100H: MOVr A, F0 01
+...                 \
+01F0H: F0 0F  <------+
 ....         \
 0FF0H: 5A <---+
 ```
