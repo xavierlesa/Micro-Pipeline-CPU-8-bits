@@ -242,29 +242,51 @@ MOV A, 57H  ; El valor HEX de MOV es 0b1111xx00 donde xx es la dirección del re
 
 |Operador   | Operando | Hexa        |  Descripción                                       |
 |-----------|----------|-------------|----------------------------------------------------|
-|MOV r,x    | 57H      | Fx 57       |  Rr <- 57H, Carga en el Rr el inmediato 57H.       |
-
+|MOV r,x    | 57H      | Fx 57       |  Rr <- 57H, Carga en Rr el inmediato 57H.          |
 
 
 ### Indirecto
 
-### Directo
+|Operador   | Operando | Hexa        |  Descripción                                       |
+|-----------|----------|-------------|----------------------------------------------------|
+|MOV r,[m]  | 1F00H    | E4 00 1F    |  Rr <- [1F00H], Carga en Rr lo que existe en la    |
+|           |          |             |  dirección de memoria 1F00H. La dirección se carga |
+|           |          |             |  desde el LSB al MSB y se lee desde MSB al LSB.    |
 
-### Swap
+### Relativo
 
 |Operador   | Operando | Hexa        |  Descripción                                       |
 |-----------|----------|-------------|----------------------------------------------------|
+|MOV r,#m   | 1F00H    | D4 00 1F    |  Rr <- #1F00H, Carga en Rr lo que existe en la     |
+|           |          |             |  dirección de memoria relativa al inmediato 1F00H. |
+|           |          |             |  En ambos la dirección se carga desde el LSB al    |
+|           |          |             |  MSB y se lee desde MSB al LSB.                    |
+
+```
+0100H: MOV A, F0 01
+...                \
+01F0H: F0 0F  <-----+
+....         \
+0FF0H: 5A <---+
+```
+
+### Swap
+
+|Operador   | Operando | Hexa        |  Descripción                                        |
+|-----------|----------|-------------|-----------------------------------------------------|
 |MOV A,x    | 57H      | F4 57       |  RA <- 57H, Carga en el ACC el inmediato 57H.       |
 |MOV A,[m]  | 1F00H    | E4 00 1F    |  RA <- [1F00H], Carga en el ACC lo que existe en la |
-|           |          |             |  dirección de memoria 1F00H. La dirección se carga |
-|           |          |             |  desde el LSB al MSB y se lee desde MSB al LSB.    |
+|           |          |             |  dirección de memoria 1F00H. La dirección se carga  |
+|           |          |             |  desde el LSB al MSB y se lee desde MSB al LSB.     |
+|MOV A,#m   | 1F00H    | E4 00 1F    |  RA <- #1F00H, Carga en el ACC lo que existe en la  |
+|           |          |             |  dirección de memoria relativa al inmediato 1F00H.  |
 |MOV [m],A  | 1F00H    | D4 00 1F    |  [1F00H] <- RA, Carga en la dirección de memoria    |
-|           |          |             |  1F00H lo que hay en el ACC.                       |
+|           |          |             |  1F00H lo que hay en el ACC.                        |
 |MOV B,x    | 57H      | F8 57       |  RB <- 57H, Carga en RB el inmediato 57H.           |
 |MOV B,[m]  | 1F00H    | E8 00 1F    |  RA <- [1F00H], Carga en RB lo que existe en la     |
-|           |          |             |  dirección de memoria 1F00H.                       |
+|           |          |             |  dirección de memoria 1F00H.                        |
 |MOV [m],B  | 1F00H    | D8 00 1F    |  [1F00H] <- RA, Carga en la dirección de memoria    |
-|           |          |             |  1F00H lo que hay en RB.                           |
+|           |          |             |  1F00H lo que hay en RB.                            |
 
 
 ```asm
