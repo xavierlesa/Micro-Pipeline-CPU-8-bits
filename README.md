@@ -214,28 +214,56 @@ MOV A,[1F00H]
 Por ahora solo hay dos registros el **A** y **B**, identificados por las direcciones `0x01` y `0x10`
 respectivamente.
 
-| R  | addr     | Descripción |
-|----|----------|-------------|
-| A  | 0100H    | Registro de proposito general y acumulador, en este es hacen la mayoria de |
-|    |          | las operaciones matemáticas y lógicas.                                     |
-| B  | 1000H    | Registro de proposito general, intercambio de datos con y registro         |
-|    |          | temporal.                                                                  |
+| R  | addr | Descripción |
+|----|------|-------------|
+| A  | 01H  | Registro de proposito general y acumulador, en este es hacen la mayoria de |
+|    |      | las operaciones matemáticas y lógicas.                                     |
+| B  | 10H  | Registro de proposito general, intercambio de datos con y registro         |
+|    |      | temporal.                                                                  |
+
+Para acceder a las operaciones de registro solo es necesario identificar y asignar el
+registro y sumarlo a  la instrucción. Ejemplo:
+
+```asm
+MOV A, 57H  ; El valor HEX de MOV es 0b1111xx00 donde xx es la dirección del registro
+            ; en el caso del Reg A 01H -> 0b0100
+            ;   0b11110000 --> F0H
+            ; + 0b00000100 --> 04H
+            ; ------------
+            ;   0b11110100 --> F4H
+
+0100H: F4 57
+```
 
 
 ## Lectura/Escritura en Registros/Memoria
 
+### Inmediato
+
 |Operador   | Operando | Hexa        |  Descripción                                       |
 |-----------|----------|-------------|----------------------------------------------------|
-|MOV A,x    | 57H      | F4 57       |  RA < 57H, Carga en el ACC el inmediato 57H.       |
-|MOV A,[m]  | 1F00H    | E4 00 1F    |  RA < [1F00H], Carga en el ACC lo que existe en la |
+|MOV r,x    | 57H      | Fx 57       |  Rr <- 57H, Carga en el Rr el inmediato 57H.       |
+
+
+
+### Indirecto
+
+### Directo
+
+### Swap
+
+|Operador   | Operando | Hexa        |  Descripción                                       |
+|-----------|----------|-------------|----------------------------------------------------|
+|MOV A,x    | 57H      | F4 57       |  RA <- 57H, Carga en el ACC el inmediato 57H.       |
+|MOV A,[m]  | 1F00H    | E4 00 1F    |  RA <- [1F00H], Carga en el ACC lo que existe en la |
 |           |          |             |  dirección de memoria 1F00H. La dirección se carga |
 |           |          |             |  desde el LSB al MSB y se lee desde MSB al LSB.    |
-|MOV [m],A  | 1F00H    | D4 00 1F    |  [1F00H] < RA, Carga en la dirección de memoria    |
+|MOV [m],A  | 1F00H    | D4 00 1F    |  [1F00H] <- RA, Carga en la dirección de memoria    |
 |           |          |             |  1F00H lo que hay en el ACC.                       |
-|MOV B,x    | 57H      | F8 57       |  RB < 57H, Carga en RB el inmediato 57H.           |
-|MOV B,[m]  | 1F00H    | E8 00 1F    |  RA < [1F00H], Carga en RB lo que existe en la     |
+|MOV B,x    | 57H      | F8 57       |  RB <- 57H, Carga en RB el inmediato 57H.           |
+|MOV B,[m]  | 1F00H    | E8 00 1F    |  RA <- [1F00H], Carga en RB lo que existe en la     |
 |           |          |             |  dirección de memoria 1F00H.                       |
-|MOV [m],B  | 1F00H    | D8 00 1F    |  [1F00H] < RA, Carga en la dirección de memoria    |
+|MOV [m],B  | 1F00H    | D8 00 1F    |  [1F00H] <- RA, Carga en la dirección de memoria    |
 |           |          |             |  1F00H lo que hay en RB.                           |
 
 
