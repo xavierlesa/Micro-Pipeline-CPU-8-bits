@@ -15,12 +15,6 @@ Versión simplificada - 74HC193 Presettable synchronous 4-bit binary up/down cou
 
 `*` PC_EN es una operación lógica: CPU(4) = CK AND PC_EN
 
-`~` active low
-
-`~MEM_CE`: Memory Chip Enable es active LOW, por lo que al cargar `PC_LDL` o `PC_LDH`
-esta señal pasa a `~MEM_CE` a HIGH para desactivar la Memoria durante la carga del `PC`.
-
-
 ```
                 ___
     <PC_EN>----|   \
@@ -28,6 +22,12 @@ esta señal pasa a `~MEM_CE` a HIGH para desactivar la Memoria durante la carga 
     <CLK>------|___/
 
 ```
+
+`~` Esta señal es Active LOW
+
+`~MEM_CE` Memory Chip Enable es active LOW, por lo que al cargar `PC_LDL` o `PC_LDH`
+esta señal pasa a `~MEM_CE` a HIGH para desactivar la Memoria durante la carga del `PC`.
+
 
 #### Conexión a los Buses:
 
