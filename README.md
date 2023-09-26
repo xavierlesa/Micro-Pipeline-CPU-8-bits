@@ -313,10 +313,6 @@ loop:
 CLK __/  \__/
 
 
-LW
-JMP
-NOP
-
 0 NOP: No operation
 1 LDA: Load next word to REG A
 2 LDB: Load next word to REG B
@@ -331,27 +327,6 @@ A STA: Store REG A to next word addr
 B STB: Store REG B to next word addr
 C OUT: Write out REG A to bus and enable OE (Output Enable) to read from external
 
-## Ejemplo: contador de numeros impares  
-
-Un programa que cuenta de forma impar desde 1 hasta 255 (8 bits)
-0b00000000
-0b00000001 - impar
-0b00000011
-0b00000101
-0b00000111
-
-CODE:
-
-0x00: 0x01 LDA    - Pone el REG A en 0b00000001
-0x01: 0x01 01     - word 0x01
-0x02: 0x0C OUT    - Pasa el contenido del REG A a la salida
-0x03: 0x07 INC    - Incrementa el REG A
-0x04: 0x07 INC    - Incrementa el REG A otra vez porque es impar
-0x05: 0x0C OUT    - Pasa el contenido del REG A a la salida
-0x06: 0x05 JMP    - Salto incondicional a la posición 0x03
-0x07: 0x03 03     - word 0x03
-
-
 Estructura de instrucción:
 
 S R  F  OP
@@ -363,6 +338,21 @@ S R  F  OP
 +----------> Fuente 
 
 
-# Grupos de instrucciones
+Opcodes
+
+LD[A|R|I]
+ST[A|R|I]
+
+SUM
+SUB
+
+
+AND
+XOR
+OR
+
+NOP
+
+
 
 ```
