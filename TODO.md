@@ -20,6 +20,15 @@ Versión simplificada - 74HC193 Presettable synchronous 4-bit binary up/down cou
 `~MEM_CE`: Memory Chip Enable es active LOW, por lo que al cargar `PC_LDL` o `PC_LDH`
 esta señal pasa a `~MEM_CE` a HIGH para desactivar la Memoria durante la carga del `PC`.
 
+
+```
+                ___
+    <PC_EN>----|   \
+               | &  }---<CPU>
+    <CLK>------|___/
+
+```
+
 #### Conexión a los Buses:
 
 Solo al bus de registros (REG_BUS) y es solo lectura.
