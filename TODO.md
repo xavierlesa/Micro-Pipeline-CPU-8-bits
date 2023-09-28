@@ -8,7 +8,7 @@ Versión simplificada - 74HC193 Presettable synchronous 4-bit binary up/down cou
 
 | Señal   | Pin | Descripción                           |
 |---------|-----|---------------------------------------|
-| PC_EN   | *4  | Program Counter Enable                |
+| ~PC_EN| *4  | Program Counter Enable                |
 | ~PC_LDL | 11  | Program Counter Load LOW + !~MEM_CE   |
 | ~PC_LDH | 11  | Program Counter Load HIGH + !~MEM_CE  |
 | PC_RST  | 14  | Program Counter Reset                 |

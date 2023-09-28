@@ -84,6 +84,95 @@ contar con los siguientes recursos:
 
 
 
+## Mapa de Memoria y Bancos de Memoria
+
+Pensado en como usar de la forma más eficinte los componentes del CPU, el espació y el
+consumo, creo que es interesante pensar en como se va a acceder y como se van aguardar
+los programas.
+
+La manera clásica, es por ejemplo, usando un Registro PC (Program Counter) de 16 bits y
+acceder a los 64kb de memoria posible de una forma lineal.
+
+Ejemplo:
+
+```
+0x8000: 0xF0 0x56       ; LD A, 0x65
+0x8002: 0xF1 0x01       ; LD B, 0x01
+0x8004: 0xC0            ; SUB A, B, A
+0x8005: 0xFA 0x1080     ; BEQ A, 0x8010 <-- saltar si A es 0 a la posición 0x8010 (16 bits)
+0x8008: 0x00 0x0280     ; JMP 0x0480 <-- salto incondicional a 0x8004
+0x800B: ...
+....
+0x8010: 0xFF            ; ...
+```
+
+Otra forma y la cual me parece interesate explorar, es la de usar bancos de memoria y
+asignar una dimensión fija para cada banco. Por ejemplo de 256 bytes los cuales se 
+pueden direccionar con solo 8 bits = 0x00..0xFF.
+
+De esta manera cada bloque de programa tiene un número fijo de 256 bytes. Esto puede
+parecer una desventaja al inicio, pero ciertamente tiene sus ventajas, como ser que
+solo necesitamos contar (PC Reg) en 8 bits y con solo dos 74HC283 lo podemos hacer 
+y luego usamos un Registro dedicado al banco con un 7HC574.
+
+La ventajas son:
+
+- Reducción de espacio en memoria:
+
+    Al solo usar direcciones de 8 bits (1 byte) las instrucciones con saltos solo
+    ocupan 1 byte extra en vez de 2 bytes para las direcciones de 16 bits.
+
+- Reducción de uso de componentes:
+
+    Solo es necesario un solo contador de 8 bits y un registro de banco.
+    En comparación con dos contadores de 8 bits y 2 registros.
+    
+
+Ejemplos:
+
+Dos tipos de asignaciones, + PC o asignación absoluta.
+
+```
+;; asignación relativa al PC, cambio del banco pero mantiene el PC.
+0x00:   0xBF 0x80       ; asignar el banco 0x80 + relativo del PC
+0x02:   0xF0 0x56       ; LD A, 0x65 <-- instrucción 0x02 del banco 0x80
+0x04:   0xF1 0x01       ; LD B, 0x01
+0x06:   0xC0            ; SUB A, B, A
+0x07:   0xFA 0x10       ; BEQ A, 0x10 <-- saltar si A es 0 a la posición 0x10
+0x09:   0x00            ; JMP 0x06 <-- salto incondicional a 0x06
+0x0A:   ...
+....
+0x10:   0xFF            ; ...
+```
+
+asignación absoluta del banco, salta a la posición 0x00 del banco
+```
+;; asignación del banco y reset del PC.
+0x00:   0xBE 0x80       ; asignar el banco 0x80 y PC a 0x00
+;; PC Reset
+0x00:   0xF0 0x56       ; LD A, 0x65 <-- instrucción 0x00 del banco 0x80
+0x02:   0xF1 0x01       ; LD B, 0x01
+0x04:   0xC0            ; SUB A, B, A
+0x05:   0xFA 0x10       ; BEQ A, 0x10 <-- saltar si A es 0 a la posición 0x10
+0x07:   0x00            ; JMP 0x02 <-- salto incondicional a 0x02
+....
+0x10:   0xFF            ; ...
+```
+
+
+Algunas desventajas:
+
+- Programas más complejos:
+
+    Los saltos a direcciones absolutas entre bancos, son mas complejas/lentas ya que
+    primero hay que setear el banco y luego hacer el salto a la dirección relativa.
+
+- Fragmentación de programas:
+
+    A la hora de programar hay que pensar cuidadozamente que la rutina no supere las 256
+    instrucciones a las que estamos limitados por banco. Si esto sucede hay que agrgar
+    algunas instrucciones extras para los saltos entre bancos y no perder datos entre
+    estos.
 
 
 ```
@@ -155,20 +244,26 @@ Las instrucciones para este CPU van a estar categorizadas en 4 grupos:
 
     Estas son las instrucciones encargadas de escribir y leer en memoria y en 
     los registros, así como mover datos entre estos.
+    `LD`, `LDA`, `LDR`, `ST`.
 
 - Aritméticas y Lógicas
 
     Instrucciones para operaciónes matemáticas como suma, resta, 
     multiplicación, división, inc/dec, etc.
+    `ADD`, `ADDI`, `SUB`, `SUBI`, `AND`, `OR`, `XOR`.
+    
 
 - Saltos y llamadas a subrutinas
 
     Solo vamos a contar con saltos condiciones e incondicionales así como 
     llamadas a subrutinas.
+    `JMP`, `BEQ`, `BNEQ`
+
 
 - Otras / Miscelanias
 
-    Otras instrucciones como HALT y NOP
+    Otras instrucciones como HALT y NOP.
+    `NOP`.
 
 
 **Referencias**
@@ -336,6 +431,13 @@ S R  F  OP
 | |  +-----> Función interna 00 ADD, 01 SHIFT, 10 AND, 11 OR
 | +--------> Registro 00 RZ, 01 RA, 10 RB, 11 RC
 +----------> Fuente 
+
+Opcode/func (5) | Par Registros (3)
+
+00000             000
+|                 |
+|                 +--> indica que registros se usan en las operaciones con registros
++--------------------> Opcode
 
 
 Opcodes
