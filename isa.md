@@ -8,14 +8,14 @@
 |------------|--------|--------|--------|--------|------|-----------------------------------|
 | *Posición*| *15..12*| *11..9*| *8..6* | *5..3* | *2..0*|                                   |
 | **Tipo-R** | **opcode** | **rd**     | **rs1** | **rs2**    | **fn**   |                    |
-| add        | 0000   | rd     | rs1    | rs2    | 000  |   rd = rs + rt                    |
-| adc        | 0000   | rd     | rs1    | rs2    | 001  |   rd = rs + rt + carry            | 
-| sub        | 0000   | rd     | rs1    | rs2    | 010  |   rd = rs - rt                    |
-| sbb        | 0000   | rd     | rs1    | rs2    | 011  |   rd = rs - rt - borrow           |
-| and        | 0000   | rd     | rs1    | rs2    | 100  |   rd = rs AND rt                    |                    
-| or         | 0000   | rd     | rs1    | rs2    | 101  |   rd = rs OR rt                    |
-| xor        | 0000   | rd     | rs1    | rs2    | 110  |   rd = rs XOR rt                    |
-| sll        | 0000   | rd     | rs1    | 00     | 111  |   rd = rs << 1                    |
+| add        | 0000   | rd     | rs1    | rs2    | 000  |   rd = rs1 + rs2                   |
+| adc        | 0000   | rd     | rs1    | rs2    | 001  |   rd = rs1 + rs2 + carry            | 
+| sub        | 0000   | rd     | rs1    | rs2    | 010  |   rd = rs1 - rs2                   |
+| sbb        | 0000   | rd     | rs1    | rs2    | 011  |   rd = rs1 - rs2 - borrow           |
+| and        | 0000   | rd     | rs1    | rs2    | 100  |   rd = rs1 AND rs2                    |                    
+| or         | 0000   | rd     | rs1    | rs2    | 101  |   rd = rs1 OR rs2                    |
+| xor        | 0000   | rd     | rs1    | rs2    | 110  |   rd = rs1 XOR rs2                    |
+| sll        | 0000   | rd     | rs1    | 00     | 111  |   rd = rs1 << 1                    |
 
 
 ## Instrucciones Modo-1 (I, L)
@@ -27,14 +27,16 @@
 | addi       | 0001   | rd     | rs1    | imm6   | rd = rs + imm6                    |
 | lb         | 0010   | rd     | rs1    | imm6   | rd = Mem\[rs << 6 + imm6\]          |
 
-lb          0100    rd      rs      int6    rd = Mem[rs +/- int6]
-sb          0101    rd      rs      int6    Mem[rs +/- int6] = rt
-beqz        0111    int3    rs      int6    if(rs == 0) PC = PC +/- int9[8:0]
-bnez        1000    int3    rs      int6    if(rs != 0) PC = PC +/- int9[8:0]
+## Instrucciones Modo-2 (S, B)
 
-**int6*: Un valor inmediato de 6 bits con signo, desde 32, a -32
-**int9*: Un valor inmediato de 9 bits, solo pueden ser asignados los primero 8 bits
-a los registros, el MSB de descarta.
+| Bits       | 4      | 3      | 3      | 3      | 3    |                                   |
+|------------|--------|--------|--------|--------|------|-----------------------------------|
+| *Posición*| *15..12*| *11..9*| *8..6* | *5..3* | *2..0*|                                  |
+| **Tipo-R** | **opcode** | **imm3**    | **rs1**| **rs2**    | **imm3**   |                |
+| sb         | 0011   | imm3   | rs1    | rs2   |  imm3 | Mem\[rs1 << 6 + imm6\] = rs2 |
+| beq        | 0100   | imm3   | rs1     | rs2   | imm3 |  if(rs1 == rs2) PC = PC +/- imm5 |
+
+***+/- imm5**: Un valor inmediato de 6 bits con signo, desde 32, a -32 bytes relativos al PC.*
 
 
 ## Instrucciones J
