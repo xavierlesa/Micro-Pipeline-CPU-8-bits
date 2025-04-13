@@ -1,4 +1,6 @@
-# Micro Pipeline CPU de 8 bit hecho a mano (DRAFT)
+# X1 CPU
+
+## Micro Pipeline CPU de 8 bit hecho a mano (DRAFT)
 
 
 Este proyecto está fuertemente inspirado en las series de videos de
@@ -183,7 +185,7 @@ Permite saltar a una subrutina y almacenar la dirección de retorno.
 ### **3.4. Instrucciones de Carga y Almacenamiento (Load/Store)**
 Estas instrucciones manejan la carga y el almacenamiento de datos entre registros y memoria.
 
-#### **Formato para Carga (LI):**
+#### **Formato para Carga (LOAD + IMMEDIATE):**
 ```
 | Opcode (4 bits) | Rd (3 bits) | ?? (1 bit) | Immediate (8 bits) |
 ```
@@ -191,7 +193,7 @@ Estas instrucciones manejan la carga y el almacenamiento de datos entre registro
 #### **Ejemplo:**
 - **LI Rd, immed8:** Carga en `Rd` el valor `immed8`.
 
-#### **Formato para Carga (LD):**
+#### **Formato para Carga (LOAD BYTE):**
 ```
 | Opcode (4 bits) | Rd (3 bits) | Rs1 (3 bits) | Immediate (6 bits) |
 ```
@@ -199,7 +201,7 @@ Estas instrucciones manejan la carga y el almacenamiento de datos entre registro
 #### **Ejemplo:**
 - **LB Rd, Rs1, immed6:** Carga un byte `Rd` desde la dirección `Rs1 + immed6`.
 
-#### **Formato para Almacenamiento (ST):**
+#### **Formato para Almacenamiento (STORE BYTE):**
 ```
 | Opcode (4 bits) | Immediate (3 bits) | Rs1 (3 bits) | Rs2 (3 bits) | Immediate (3 bits) |
 ```
