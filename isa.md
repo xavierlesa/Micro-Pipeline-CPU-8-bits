@@ -24,8 +24,8 @@
 |------------|--------|--------|--------|--------|-----------------------------------|
 | *Posición* |*15..12*| *11..9*| *8..6* | *5..0* |                                   |
 | **mnemonic** | **opcode** | **rd** | **rs1** | **imm6** |                            |
-| addi       | 0001   | rd     | rs1    | imm6   | rd = rs + imm6                    |
-| lb         | 0010   | rd     | rs1    | imm6   | rd = Mem\[rs << 6 + imm6\]          |
+| addi       | 0001   | rd     | rs1    | imm6   | rd = rs1 + imm6                    |
+| lb         | 0010   | rd     | rs1    | imm6   | rd = Mem\[rs1 << 6 + imm6\]          |
 
 ## Instrucciones Modo-2 (S, B)
 
