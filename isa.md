@@ -2,14 +2,12 @@
 
 ## Formatos R, I, J de instrucción de 16 bits.
 
-## Instrucciones R
+## Instrucciones Modo-0 (R)
 
 | Bits       | 4      | 3      | 3      | 3      | 3    |                                   |
 |------------|--------|--------|--------|--------|------|-----------------------------------|
-| Posición   | 15..12 | 11..9  | 8..6   | 5..3   | 2..0 |                                   |
-|------------|--------|--------|--------|--------|------|-----------------------------------|
-| Tipo-R     | opcode | rd     | rs1    | rs2    | fn   |                                   |
-|------------|--------|--------|--------|--------|------|-----------------------------------|
+| *Posición*| *15..12*| *11..9*| *8..6* | *5..3* | *2..0*|                                   |
+| **Tipo-R** | **opcode** | **rd**     | **rs1** | **rs2**    | **fn**   |                    |
 | add        | 0000   | rd     | rs1    | rs2    | 000  |   rd = rs + rt                    |
 | adc        | 0000   | rd     | rs1    | rs2    | 001  |   rd = rs + rt + carry            | 
 | sub        | 0000   | rd     | rs1    | rs2    | 010  |   rd = rs - rt                    |
@@ -20,17 +18,17 @@
 | sll        | 0000   | rd     | rs1    | 00     | 111  |   rd = rs << 1                    |
 
 
-## Instrucciones I
+## Instrucciones Modo-1 (I, L)
 
-Bits        4       3       3       6   
-Posición    15..12  11..9   8..6    5..0
-Tipo-I      opcode  rd      rs      imm
+| Bits       | 4      | 3      | 3      | 6      |                                   |
+|------------|--------|--------|--------|--------|-----------------------------------|
+| *Posición* |*15..12*| *11..9*| *8..6* | *5..0* |                                   |
+| **Tipo-I** | **opcode** | **rd** | **rs1** | **imm6** |                            |
+| addi       | 0001   | rd     | rs1    | imm6   | rd = rs + imm6                    |
+| lb         | 0010   | rd     | rs1    | imm6   | rd = Mem\[rs << 6 + imm6\]          |
 
-addi        0001    rd      rs      int6    rd = rs + int6
 lb          0100    rd      rs      int6    rd = Mem[rs +/- int6]
 sb          0101    rd      rs      int6    Mem[rs +/- int6] = rt
-li          0110    rd      int3    int6    rd = int9 (solo los primeros 8 bits)
-
 beqz        0111    int3    rs      int6    if(rs == 0) PC = PC +/- int9[8:0]
 bnez        1000    int3    rs      int6    if(rs != 0) PC = PC +/- int9[8:0]
 
