@@ -82,7 +82,7 @@ Las instrucciones en MIPS-16 están compuestas por 16 bits. Dependiendo del tipo
 - **Función (Fn, 3 bits):** Especifica la función que se realizará en la instrucción.
 
 También se pueden encontrar campos adicionales en las instrucciones:
-- **Inmediato (Imm):** Un valor inmediato que puede variar en tamaño (6, 8 o 12 bits) dependiendo de la instrucción.
+- **Inmediato (imm):** Un valor inmediato que puede variar en tamaño (6, 8 o 12 bits) dependiendo de la instrucción.
 
 
 ## Modo de las Instrucciones
@@ -94,17 +94,17 @@ se refieren siempre al Opcode.
 | Modo 0    | Modo 1    | Modo 2    | Modo 3    | Modo 4      |
 | --------- | --------- | --------- | --------- | ----------- |
 | 4- Opcode | 4- Opcode | 4- Opcode | 4- Opcode | 4- Opcode   |
-| 3- Rd     | 3- Rd     | 3- Immed3 | 3- Rd     | 12- Immed12 |
+| 3- Rd     | 3- Rd     | 3- immed3 | 3- Rd     | 12- immed12 |
 | 3- Rs1    | 3- Rs1    | 3- Rs1    | 1- ???    |             | 
-| 3- Rs2    | 6- Immed6 | 3- Rd2    | 8- Immed8 |             |
-| 3- Fn     |           | 3- Immed3 |           |             |
+| 3- Rs2    | 6- immed6 | 3- Rd2    | 8- immed8 |             |
+| 3- Fn     |           | 3- immed3 |           |             |
 
 
 #### Aplicación de modos:
 
 | Modo 0    | Modo 1    | Modo 2    | Modo 3    | Modo 4      |
 | --------- | --------- | --------- | --------- | ----------- |
-| **ALU**   | **ALU**   | **STORE** | **LOAD**  | **JUMP**  |
+| **ALU**   | **ALU**   | **STORE** | **LOAD**  | **JUMP**    |
 | ADD       | ADDI      | SB        | LI        | JA          |
 | SUB       |           |           |           | JAL         |
 | AND       | **LOAD**  | **BRANCH**|           |             |
@@ -141,7 +141,7 @@ Las instrucciones tipo I operan con un registro fuente y un valor inmediato, que
 ```
 
 #### **Ejemplos:**
-- **ADDI Rd, Rs1, Imm6:** Suma el valor de `Rs1` con un inmediato de 6 bits, y almacena el resultado en `Rd`.
+- **ADDI Rd, Rs1, immed6:** Suma el valor de `Rs1` con un inmediato de 6 bits, y almacena el resultado en `Rd`.
 
 
 
@@ -154,12 +154,12 @@ Estas instrucciones realizan un salto basado en la comparación de registros.
 ```
 
 #### **Ejemplo:**
-- **BEQ Rs1, Rs2, Imm6:** Si `Rs1` es igual a `Rs2`, salta a la dirección relativa `Imm6`. el MSB de `Imm6` determina si salta hacia arriba o hacia abajo dejando un salto efecntivo de `+/- 32 bytes`.
+- **BEQ Rs1, Rs2, immed6:** Si `Rs1` es igual a `Rs2`, salta a la dirección relativa `immed6`. el MSB de `immed6` determina si salta hacia arriba o hacia abajo dejando un salto efectivo de `+/- 32 bytes`.
 
 
 ### **3.4. Instrucciones Tipo JA (Jump)**
 Las instrucciones tipo J manejan saltos absolutos a una dirección específica.
-Estas instrucciones permiten realizar saltos incondicionales a una dirección específica de `12 bits` más los 4 bits de PC.
+Estas instrucciones permiten realizar saltos incondicionales a una dirección específica de `12 bits` más los `4 bits` del `PC`.
 
 #### **Formato:**
 ```
@@ -167,7 +167,7 @@ Estas instrucciones permiten realizar saltos incondicionales a una dirección es
 ```
 
 #### **Ejemplo:**
-- **JA Imm12:** Salta a la dirección formada por los 4 bits altos de PC y los 12 bits inmediatos.
+- **JA immed12:** Salta a la dirección formada por los 4 bits altos de PC y los 12 bits inmediatos.
 
 #### **3.4.1. Saltos Absolutos con Enlace (JAL)**
 Permite saltar a una subrutina y almacenar la dirección de retorno.
@@ -178,26 +178,32 @@ Permite saltar a una subrutina y almacenar la dirección de retorno.
 ```
 
 #### **Ejemplo:**
-- **JAL Imm12:** Salta a la dirección `PC + Imm12` y guarda la dirección de retorno en los registros `R6` y `R7`.
+- **JAL immed12:** Salta a la dirección `PC + immed12` y guarda la dirección de retorno en los registros `R6` y `R7`.
 
 ### **3.4. Instrucciones de Carga y Almacenamiento (Load/Store)**
 Estas instrucciones manejan la carga y el almacenamiento de datos entre registros y memoria.
 
-#### **Formato para Carga (LD):**
+#### **Formato para Carga (LI):**
 ```
-| Opcode (4 bits) | Rs1 (3 bits) | Rd (3 bits) | Immediate (6 bits) |
+| Opcode (4 bits) | Rd (3 bits) | ?? (1 bit) | Immediate (8 bits) |
 ```
 
 #### **Ejemplo:**
-- **LDL Rd, Rs1, Imm6:** Carga los 8 bits inferiores (Low Byte) de la palabra de 16 bits en `Rd`.
-- **LDH Rd, Rs1, Imm6:** Carga los 8 bits superiores (High Byte) de la palabra de 16 bits en `Rd`.
+- **LI Rd, immed8:** Carga en `Rd` el valor `immed8`.
+
+#### **Formato para Carga (LD):**
+```
+| Opcode (4 bits) | Rd (3 bits) | Rs1 (3 bits) | Immediate (6 bits) |
+```
+
+#### **Ejemplo:**
+- **LB Rd, Rs1, immed6:** Carga un byte `Rd` desde la dirección `Rs1 + immed6`.
 
 #### **Formato para Almacenamiento (ST):**
 ```
-| Opcode (4 bits) | Rs1 (3 bits) | Rd (3 bits) | Immediate (6 bits) |
+| Opcode (4 bits) | Immediate (3 bits) | Rs1 (3 bits) | Rs2 (3 bits) | Immediate (3 bits) |
 ```
 
 #### **Ejemplo:**
-- **STL Rs1, Rd, Imm6:** Almacena los 8 bits inferiores de `Rd` en la dirección de memoria calculada como `Rs1 + Imm6`.
-- **STH Rs1, Rd, Imm6:** Almacena los 8 bits superiores de `Rd` en la dirección de memoria calculada como `Rs1 + Imm6`.
+- **SB Rs1, Rs2, immed6:** Almacena el contenido `Rs1` (1 byte) en la dirección de memoria calculada como `Rs2 + immed6`.
 
