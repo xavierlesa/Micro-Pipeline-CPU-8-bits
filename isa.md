@@ -32,41 +32,47 @@
 | Bits       | 4      | 3      | 3      | 3      | 3    |                                   |
 |------------|--------|--------|--------|--------|------|-----------------------------------|
 | *Posición*| *15..12*| *11..9*| *8..6* | *5..3* | *2..0*|                                  |
-| **Tipo-R** | **opcode** | **imm3**    | **rs1**| **rs2**    | **imm3**   |                |
+| **Tipo-S** | **opcode** | **imm3**    | **rs1**| **rs2**    | **imm3**   |                |
 | sb         | 0011   | imm3   | rs1    | rs2   |  imm3 | Mem\[rs1 << 6 + imm6\] = rs2 |
 | beq        | 0100   | imm3   | rs1     | rs2   | imm3 |  if(rs1 == rs2) PC = PC +/- imm5 |
 
-***+/- imm5**: Un valor inmediato de 6 bits con signo, desde 32, a -32 bytes relativos al PC.*
+***+/- imm5**: Un valor inmediato de 5 bits con signo, desde 32, a -32 bytes relativos al PC.*
 
 
-## Instrucciones J
+## Instrucciones Modo-3 (L,I)
 
-Bits        4       12
-Posición    15..12  11..0
-Tipo-J      opcode  imm
+| Bits       | 4      | 3      | 1      | 8      |                                   |
+|------------|--------|--------|--------|--------|-----------------------------------|
+| *Posición* |*15..12*| *11..9*| *8*    | *7..0* |                                   |
+| **Tipo-LI** | **opcode** | **rd** | **??** | **imm8** |                            |
+| li          | 0101  | rd     | ??     | imm8   | rd = imm8                         |
 
-j           1001    int12   PC = (PC << 4) + int12
-jal         1010    int12   PC = (PC << 4) + int12 // y guarda en $t7:$t6 = PC
-ret         1011    --      PC = $t7:$t6
 
+## Instrucciones Modo-4 (J,I)
+
+| Bits       | 4      | 12      |                                                    |
+|------------|--------|---------|----------------------------------------------------|
+| *Posición* |*15..12*| *11..0* |                                                    |
+| **mnemonic** | **opcode**  | **imm12** |                                            |
+| ja         | 0110  | imm12 | PC = PC & 0xf000 + imm12                           |
+| jal        | 0111  | imm12 | r7 = PC(low), r6 = PC(high); PC = PC & 0xf000 + imm12 | 
 
 - Opcode de 4 bits (hasta 16 instrucciones).
-- Registros de proposito general $t1 a $t3 y zero $z o $t0 o $0.
-- Registros de return address $t6 y $t7 son usados juntos como $ra
-- Registros de argumentos $t4 y $t5 son usados para argumentos en subrutinas
-- Ramas y saltos relativos y absolutos
-
+- Registro `r0` constante 0 (zero).
+- Registros de proposito general `r1` a `r3`.
+- Registros de argumentos `r4` y `r5` son usados para argumentos en subrutinas
+- Registros de return address `r6` y `r7` son usados juntos como `ra`
 
 
 ## Registros
 
 Dirección   Registro  Descripción
 
-000         $z        Registro de solo lectura, valor 0x0, solo para tipo R e I.
-001         $1        Registro de proposito general 1
-010         $2        Registro de proposito general 2
-011         $3        Registro de proposito general 3
-100         $4        Registro v1 para argumento 1 de subrutinas
-101         $5        Registro v2 para argumento 2 de subrutinas
-110         $6        Registro RA parte baja
-111         $7        Registro RA parte alta
+000         r0        Registro de solo lectura, valor 0x0.
+001         r1        Registro de proposito general 1
+010         r2        Registro de proposito general 2
+011         r3        Registro de proposito general 3
+100         r4        Registro v1 para argumento 1 de subrutinas
+101         r5        Registro v2 para argumento 2 de subrutinas
+110         r6        Registro RA parte baja
+111         r7        Registro RA parte alta
