@@ -114,6 +114,8 @@ se refieren siempre al Opcode.
 | XOR       |           |           |           |             |
 
 
+ISA Completo en [ISA](isa.md)
+
 
 ## **3. Tipos de Instrucciones**
 
