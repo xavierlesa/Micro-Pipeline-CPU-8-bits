@@ -73,6 +73,6 @@
 
 ## Modos de direccionamiento
 
-- **Base Relativo:** `Mem\[imm6 << 8 + rs1\]` quedando una direccion relativa de 14 bits.
-- **Relativo:** `Mem\[PC +/- imm8\]` quedando una direccion relativa de +255 a -256 bytes.
-- **Absoluto:** `Mem\[PC & 0xF000 + imm12\]` quedando una direccion absoluta de 12 bits.
+- **Base Relativo:** `Mem[imm6 << 8 + rs1]` quedando una direccion relativa de 14 bits.
+- **Relativo:** `Mem[PC +/- imm8]` quedando una direccion relativa de +255 a -256 bytes.
+- **Absoluto:** `Mem[PC & 0xF000 + imm12]` quedando una direccion absoluta de 12 bits.
