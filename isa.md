@@ -23,7 +23,7 @@
 | Bits       | 4      | 3      | 3      | 6      |                                   |
 |------------|--------|--------|--------|--------|-----------------------------------|
 | *Posición* |*15..12*| *11..9*| *8..6* | *5..0* |                                   |
-| **mnemonic** | **opcode** | **rd** | **rs1** | **imm6** |                          |
+| **mnemonic** | **opcode** | **rd/rs** | **rs** | **imm6** |                          |
 | addi       | 0001   | rd     | rs1    | imm6   | rd = rs1 + imm6                   |
 | lb         | 0010   | rd     | rs1    | imm6   | rd = Mem\[imm6 << 8 + rs1\]       |
 | sb         | 0011   | rs1    | rs2    | imm6 | Mem\[imm6 << 8 + rs1\] = rs2      |
@@ -33,12 +33,13 @@
 | Bits       | 4      | 3      | 1      | 8      |                                   |
 |------------|--------|--------|--------|--------|-----------------------------------|
 | *Posición* |*15..12*| *11..9*| *8*    | *7..0* |                                   |
-| **mnemonic** | **opcode** | **rd** | **s** | **imm8** |                            |
-| li           | 0100   | rd     | 0    | imm8   | rd = imm8                         |
+| **mnemonic** | **opcode** | **rd/rs** | **s** | **imm8** |                            |
+| li           | 0100   | rd     | x    | imm8   | rd = imm8                         |
 | beqz         | 0101   | rs1    | s    | imm8   |  if(rs1 == 0) PC = PC +/- imm8  |
 | bneqz        | 0110   | rs1    | s    | imm8   |  if(rs1 != 0) PC = PC +/- imm8  |
 
-***s**: Booleano que indica el signo del inmediato.*
+***s**: Bit de signo del inmediato.*
+***x**: Este bit no se usa en esta instrucción.*
 ***+/- imm8**: Un valor inmediato de 8 bits, desde 255, a -256 bytes relativos al PC.*
 
 ## Instrucciones Modo-3 (J)
